@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mqtt2wiz:
+    image: ghcr.io/videejay/mqtt2wiz:latest
+    container_name: mqtt2wiz_container
+    ports:
+      - "8080:8080"
+    environment:
+      - ENV_VARIABLE_NAME=value
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt_broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+    restart: always
+
+volumes:
+  mosquitto-data:
+  mosquitto-log:
+
+x-credentials:
+  ghcr.io:
+    auth:
+      password: "${CONTAINER_REGISTRY_TOKEN}"
